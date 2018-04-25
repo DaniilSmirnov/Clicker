@@ -6,6 +6,9 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +27,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        lateinit var mAdView : AdView
+
+        MobileAds.initialize(this,"ca-app-pub-7531773367714486~4707428901")
+
+        mAdView = findViewById(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
         val click_on_enemy = findViewById<ImageButton>(R.id.enemy_button)
         val points_view = findViewById<TextView>(R.id.points)
         val click_on_upgrade_power = findViewById<ImageButton>(R.id.upgrade_power)
@@ -31,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         val health_view = findViewById<ProgressBar>(R.id.healtbar)
         val health_view_text = findViewById<TextView>(R.id.healthtext)
         val level_view= findViewById<TextView>(R.id.level_counter)
-
 
         fun update_ui(){
 
