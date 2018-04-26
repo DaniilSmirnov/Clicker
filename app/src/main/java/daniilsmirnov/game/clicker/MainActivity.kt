@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     var level_lenght: Int = 10
     var enemy_counter: Int = 10
     var enemy_const: Int = 10
+    val numbers: IntArray = intArrayOf(R.drawable.sword1, R.drawable.sword2, R.drawable.sword3)
+    var i: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -99,6 +101,16 @@ class MainActivity : AppCompatActivity() {
                 power_upgrade_need*=5
                 points-=power_upgrade_need
 
+                click_on_upgrade_power.setBackgroundResource(numbers[i])
+
+                if(i == 3){
+
+                    i =  0
+
+                }
+                else {
+                    i++
+                }
                 if (points <= 0){
 
                     points = 0
