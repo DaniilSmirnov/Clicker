@@ -11,8 +11,13 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.view.*
+import android.widget.TextView
+import android.content.Context
+
 
 class MainActivity : AppCompatActivity() {
+
+    //private val mContext: Context = applicationContext
 
     var money: Int  = 0
     var diamonds: Int = 0
@@ -25,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //val context: Context = applicationContext
 
         lateinit var mAdView : AdView
 
@@ -54,6 +61,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun add_event(){
+
+            val event_text = TextView(applicationContext)
+            event_text.setText("Test")
+
+            event_card.addView(event_text)
 
             update_ui()
 
