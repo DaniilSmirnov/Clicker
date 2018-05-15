@@ -1,7 +1,9 @@
 package daniilsmirnov.game.clicker
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.widget.*
 import com.google.android.gms.ads.AdRequest
@@ -16,12 +18,7 @@ class MainActivity : AppCompatActivity() {
     var diamonds: Int = 0
     var power: Int = 100
     var energy: Int = 10
-    var health_const: Int = 100
-    var level_lenght: Int = 10
-    var enemy_counter: Int = 10
-    var enemy_const: Int = 10
 
-    val numbers: IntArray = intArrayOf(R.drawable.sword1, R.drawable.sword2, R.drawable.sword3)
     var i: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +35,13 @@ class MainActivity : AppCompatActivity() {
         val diamonds_view = findViewById<TextView>(R.id.diamonds)
         val energy_view = findViewById<ProgressBar>(R.id.energybar)
         val energy_view_text = findViewById<TextView>(R.id.energytext)
+        val event_card = findViewById<CardView>(R.id.event_card)
+
+        val energy_runnable = Runnable {
+            energy+=1
+            Toast.makeText(this@MainActivity, "Thread runned", Toast.LENGTH_SHORT).show()
+            Thread.sleep(60000)
+        }
 
         fun update_ui(){
 
@@ -55,13 +59,18 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        update_ui()
+
+        fun init(){
+
+        //    val t = Thread(energy_runnable)
+          //  t.start()
+            update_ui()
+
+        }
+
+        init()
 
         pipe.setOnClickListener {
-            // enemy need an animation
-
-            //Timer().schedule(100) {
-            pipe.setBackgroundResource(R.drawable.enemy1)
 
             if(energy > 0){
 
@@ -79,10 +88,14 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-
-
             update_ui()
 
+        }
+
+        event_card.setOnClickListener{
+
+            val intent_events = Intent( this, ScrollingActivity::class.java)
+            startActivity(intent_events)
         }
 
     }

@@ -166,6 +166,7 @@
         app:layout_constraintVertical_bias="0.082" />
 
     <android.support.v7.widget.CardView
+        android:id="@+id/event_card"
         android:layout_width="368dp"
         android:layout_height="72dp"
         android:layout_marginBottom="8dp"
