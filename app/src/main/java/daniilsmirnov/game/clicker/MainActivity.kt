@@ -13,6 +13,9 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.view.*
 import android.widget.TextView
 import android.content.Context
+import android.graphics.Color
+import android.util.TypedValue
+import android.widget.LinearLayout.LayoutParams
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         val energy_view = findViewById<ProgressBar>(R.id.energybar)
         val energy_view_text = findViewById<TextView>(R.id.energytext)
         val event_card = findViewById<CardView>(R.id.event_card)
+        val mouse_info = findViewById<TextView>(R.id.mouse_info)
+        val mouse_icon_view = findViewById<ImageView>(R.id.mouse_icon_view)
 
         val energy_runnable = Runnable {
             energy+=1
@@ -62,10 +67,8 @@ class MainActivity : AppCompatActivity() {
 
         fun add_event(){
 
-            val event_text = TextView(applicationContext)
-            event_text.setText("Test")
-
-            event_card.addView(event_text)
+            mouse_info.setText("Test")
+            mouse_icon_view.setImageResource(R.drawable.enemy1)
 
             update_ui()
 
