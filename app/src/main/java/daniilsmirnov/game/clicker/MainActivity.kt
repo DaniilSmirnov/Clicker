@@ -131,16 +131,16 @@ class MainActivity : AppCompatActivity() {
 
     @Throws(XmlPullParserException::class, IOException::class)
     private fun getMousefromXML(activity: Activity): String {
+        i=rand(1,2)
         val stringBuilder = StringBuilder()
         val res = activity.resources
         val xmlResourceParser = res.getXml(R.xml.locations)
         xmlResourceParser.next()
         var eventType = xmlResourceParser.eventType
         while (eventType != XmlPullParser.END_DOCUMENT) {
-            stringBuilder.append(xmlResourceParser.text)
-            i=rand(1,2)
             if (eventType == XmlPullParser.START_TAG
                     && xmlResourceParser.getName().equals("mice"+"$i")) {
+                stringBuilder.append(xmlResourceParser.getAttributeValue(0))
                 eventType = xmlResourceParser.next()
             }
         }
