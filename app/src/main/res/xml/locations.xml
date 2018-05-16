@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <location>
+        <mice1  name="Grey mouse"
+                cost="100"
+        />
+        <mice2  name="Brown mouse"
+                cost="100"
+            />
+    </location>
+</resources>
