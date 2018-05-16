@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     var diamonds: Int = 0
     var power: Int = 100
     var energy: Int = 10
+    var location = 1.1
 
     var i: Int = 0
 
@@ -49,6 +50,9 @@ class MainActivity : AppCompatActivity() {
         val mouse_info = findViewById<TextView>(R.id.mouse_info)
         val mouse_icon_view = findViewById<ImageView>(R.id.mouse_icon_view)
 
+        var this_location_mice: IntArray
+        var this_location_mice_cost: IntArray
+
         val energy_runnable = Runnable {
             energy+=1
             Toast.makeText(this@MainActivity, "Thread runned", Toast.LENGTH_SHORT).show()
@@ -69,8 +73,6 @@ class MainActivity : AppCompatActivity() {
 
             mouse_info.setText("Test")
             mouse_icon_view.setImageResource(R.drawable.enemy1)
-
-            update_ui()
 
         }
 
