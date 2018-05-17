@@ -90,7 +90,6 @@ class MainActivity : AppCompatActivity() {
 
             launch(UI) {
                 var myResult = myThread.await()
-                money += mice_cost.toInt()
             }
 
 
@@ -137,10 +136,8 @@ class MainActivity : AppCompatActivity() {
             if (energy > 0) {
 
                 energy -= 1
-                energy_view_text.text = "$energy"
-                energy_view.progress = energy
-
                 add_event()
+                money += mice_cost.toInt()
 
             } else {
 
@@ -170,20 +167,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent_events)
         }
 
-        energy_view_text.post(
-                Runnable {
-                    val EnergyThread = async(CommonPool) {
-                        // Запустить сопрограмму и присвоить её переменной myThread.
-                        Thread.sleep(1000)
-                        energy++
-                    }
-
-                    launch(UI) {
-                        // Запустить и забыть.
-                        var myResult = EnergyThread.await()                // Подождём результата
-                        update_ui()
-                    }
-                })
     }
 
     private fun rand(from: Int, to: Int): Int {
