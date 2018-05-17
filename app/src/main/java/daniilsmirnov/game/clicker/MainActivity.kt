@@ -24,6 +24,12 @@ import org.xmlpull.v1.XmlPullParserException
 import android.app.Activity
 import java.io.IOException
 import java.util.*
+import android.content.SharedPreferences
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+import java.lang.Thread.sleep
 
 
 class MainActivity : AppCompatActivity() {
@@ -46,9 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         //val context: Context = applicationContext
 
-        lateinit var mAdView: AdView
-
-        MobileAds.initialize(this, "ca-app-pub-7531773367714486~4707428901")
+        val sPref: SharedPreferences
 
         val pipe = findViewById<ImageButton>(R.id.pipe)
         val money_view = findViewById<TextView>(R.id.money)
@@ -58,6 +62,10 @@ class MainActivity : AppCompatActivity() {
         val event_card = findViewById<CardView>(R.id.event_card)
         val mouse_info = findViewById<TextView>(R.id.mouse_info)
         val mouse_icon_view = findViewById<ImageView>(R.id.mouse_icon_view)
+
+        lateinit var mAdView: AdView
+
+        MobileAds.initialize(this, "ca-app-pub-7531773367714486~4707428901")
 
         var this_location_mice: IntArray
         var this_location_mice_cost: IntArray
@@ -81,8 +89,14 @@ class MainActivity : AppCompatActivity() {
         fun add_event() {
 
             //mouse_info.setText((getString(R.values.locations.location)))
-            mouse_info.setText(getMousefromXML(this))
-            mouse_icon_view.setImageResource(R.drawable.enemy1)
+            val myThread = async(CommonPool) {                 // Запустить сопрограмму и присвоить её переменной myThread.
+                getMousefromXML(this@MainActivity)
+            }
+
+            launch (UI) {                                      // Запустить и забыть.
+                var myResult = myThread.await()                // Подождём результата
+                mouse_info.setText(myResult)
+            }
 
         }
 
@@ -123,6 +137,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent_events)
         }
 
+
     }
 
     private fun rand(from: Int, to: Int) : Int {
@@ -147,5 +162,7 @@ class MainActivity : AppCompatActivity() {
 
         return stringBuilder.toString()
     }
+
+
 
 }
