@@ -4,22 +4,12 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.CardView
-import android.support.v7.widget.RecyclerView
 import android.widget.*
-import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.view.*
 import android.widget.TextView
-import android.content.Context
-import android.graphics.Color
-import android.text.Html
-import android.util.TypedValue
-import android.widget.LinearLayout.LayoutParams
 import org.xmlpull.v1.XmlPullParser
-import android.R.xml
-import android.content.res.XmlResourceParser
 import org.xmlpull.v1.XmlPullParserException
 import android.app.Activity
 import java.io.IOException
@@ -29,7 +19,6 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
-import java.lang.Thread.sleep
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +28,10 @@ class MainActivity : AppCompatActivity() {
     var money: Int = 0
     var diamonds: Int = 0
     var power: Int = 100
+
+    var energy_max: Int = 100
     var energy: Int = 10
+
     var location = 1.1
 
     var i: Int = 0
@@ -62,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         val event_card = findViewById<CardView>(R.id.event_card)
         val mouse_info = findViewById<TextView>(R.id.mouse_info)
         val mouse_icon_view = findViewById<ImageView>(R.id.mouse_icon_view)
+        var mice_name: String = ""
 
         lateinit var mAdView: AdView
 
@@ -76,35 +69,55 @@ class MainActivity : AppCompatActivity() {
             energy_view_text.text = "$energy"
             diamonds_view.text = "$diamonds"
             money_view.text = "$money"
+            mouse_info.text = mice_name
 
 
         }
 
         fun add_event() {
 
-            val myThread = async(CommonPool) {                 // Запустить сопрограмму и присвоить её переменной myThread.
-                getMousefromXML(this@MainActivity)
+            val myThread = async(CommonPool) {
+                // Запустить сопрограмму и присвоить её переменной myThread.
+                mice_name = getMousefromXML(this@MainActivity)
             }
 
-            launch (UI) {                                      // Запустить и забыть.
-                var myResult = myThread.await()                // Подождём результата
-                mouse_info.setText(myResult)
+            launch(UI) {
+                var myResult = myThread.await()
             }
 
+
+        }
+
+        fun energy_threads() {
+
+            val EnergyCheckThread = async(CommonPool) {
+
+                if (energy < energy_max) {
+
+                    val EnergyThread = async(CommonPool) {
+                        // Запустить сопрограмму и присвоить её переменной myThread.
+                        Thread.sleep(1000)
+                        energy++
+                    }
+
+                    launch(UI) {
+                        // Запустить и забыть.
+                        var myResult = EnergyThread.await()          // Подождём результата
+                        update_ui()
+                    }
+
+                }
+
+            }
+
+            launch(UI) {
+                var Result = EnergyCheckThread.await()
+            }
         }
 
         fun init() {
 
-            val EnergyThread = async(CommonPool) {                 // Запустить сопрограмму и присвоить её переменной myThread.
-                Thread.sleep(60000)
-                energy++
-            }
-
-            launch (UI) {                                      // Запустить и забыть.
-                var myResult = EnergyThread.await()                // Подождём результата
-                update_ui()
-            }
-
+            energy_threads()
             update_ui()
 
         }
@@ -137,45 +150,42 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent_events)
         }
 
-        energy_view.post{
 
-            val EnergyThread = async(CommonPool) {                 // Запустить сопрограмму и присвоить её переменной myThread.
-                Thread.sleep(60000)
-                energy++
-            }
+        energy_view_text.post(
+                Runnable {
+                    val EnergyThread = async(CommonPool) {
+                        // Запустить сопрограмму и присвоить её переменной myThread.
+                        Thread.sleep(1000)
+                        energy++
+                    }
 
-            launch (UI) {                                      // Запустить и забыть.
-                var myResult = EnergyThread.await()                // Подождём результата
-                update_ui()
-            }
-
-        }
-
+                    launch(UI) {
+                        // Запустить и забыть.
+                        var myResult = EnergyThread.await()                // Подождём результата
+                        update_ui()
+                    }
+                })
     }
 
-    private fun rand(from: Int, to: Int) : Int {
+    private fun rand(from: Int, to: Int): Int {
         return random.nextInt(to - from) + from
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
     private fun getMousefromXML(activity: Activity): String {
-        i=rand(1,2)
+        i = rand(1, 3)
         val stringBuilder = StringBuilder()
         val res = activity.resources
-        val xmlResourceParser = res.getXml(R.xml.locations)
-        xmlResourceParser.next()
-        var eventType = xmlResourceParser.eventType
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            if (eventType == XmlPullParser.START_TAG
-                    && xmlResourceParser.getName().equals("mice"+"$i")) {
-                stringBuilder.append(xmlResourceParser.getAttributeValue(0))
-                eventType = xmlResourceParser.next()
-            }
-        }
+        val parser = resources.getXml(R.xml.locations)
 
+        while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
+            if (parser.getEventType() == XmlPullParser.START_TAG
+                    && parser.getName().equals("mice" + "$i")) {
+                stringBuilder.append(parser.getAttributeValue(1))
+            }
+            parser.next()
+        }
         return stringBuilder.toString()
     }
-
-
 
 }
