@@ -70,12 +70,6 @@ class MainActivity : AppCompatActivity() {
         var this_location_mice: IntArray
         var this_location_mice_cost: IntArray
 
-        val energy_runnable = Runnable {
-            energy += 1
-            Toast.makeText(this@MainActivity, "Thread runned", Toast.LENGTH_SHORT).show()
-            Thread.sleep(60000)
-        }
-
         fun update_ui() {
 
             energy_view.progress = energy
@@ -88,7 +82,6 @@ class MainActivity : AppCompatActivity() {
 
         fun add_event() {
 
-            //mouse_info.setText((getString(R.values.locations.location)))
             val myThread = async(CommonPool) {                 // Запустить сопрограмму и присвоить её переменной myThread.
                 getMousefromXML(this@MainActivity)
             }
@@ -100,12 +93,22 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
         fun init() {
 
             //    val t = Thread(energy_runnable)
             //  t.start()
-            update_ui()
+
+            val EnergyThread = async(CommonPool) {                 // Запустить сопрограмму и присвоить её переменной myThread.
+                Thread.sleep(60000)
+                energy++
+            }
+
+            launch (UI) {                                      // Запустить и забыть.
+                var myResult = EnergyThread.await()                // Подождём результата
+                update_ui()
+            }
+
+            //update_ui()
 
         }
 
