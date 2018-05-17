@@ -74,8 +74,6 @@ class MainActivity : AppCompatActivity() {
             energy_view_text.text = "$energy"
             diamonds_view.text = "$diamonds"
             money_view.text = "$money"
-            mouse_info.text = mice_name
-            mouse_cost.text = mice_cost
 
         }
 
@@ -90,6 +88,10 @@ class MainActivity : AppCompatActivity() {
 
             launch(UI) {
                 var myResult = myThread.await()
+                money += mice_cost.toInt()
+                mouse_info.text = mice_name
+                mouse_cost.text = mice_cost
+                update_ui()
             }
 
 
@@ -124,7 +126,7 @@ class MainActivity : AppCompatActivity() {
 
         fun init() {
 
-            energy_threads()
+            //energy_threads()
             update_ui()
 
         }
@@ -137,7 +139,6 @@ class MainActivity : AppCompatActivity() {
 
                 energy -= 1
                 add_event()
-                money += mice_cost.toInt()
 
             } else {
 
