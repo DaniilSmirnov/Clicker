@@ -15,11 +15,11 @@ import android.app.Activity
 import java.io.IOException
 import java.util.*
 import android.content.SharedPreferences
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,7 +54,10 @@ class MainActivity : AppCompatActivity() {
         val event_card = findViewById<CardView>(R.id.event_card)
         val mouse_info = findViewById<TextView>(R.id.mouse_info)
         val mouse_icon_view = findViewById<ImageView>(R.id.mouse_icon_view)
+        val mouse_cost_view = findViewById<TextView>(R.id.mouse_cost)
+
         var mice_name: String = ""
+        var mice_cost: String = ""
 
         lateinit var mAdView: AdView
 
@@ -70,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             diamonds_view.text = "$diamonds"
             money_view.text = "$money"
             mouse_info.text = mice_name
-
+            mouse_cost.text = mice_cost
 
         }
 
@@ -78,7 +81,9 @@ class MainActivity : AppCompatActivity() {
 
             val myThread = async(CommonPool) {
                 // Запустить сопрограмму и присвоить её переменной myThread.
-                mice_name = getMousefromXML(this@MainActivity)
+                mice_name = getfromXML(this@MainActivity,1)
+                mice_cost = getfromXML(this@MainActivity,0)
+
             }
 
             launch(UI) {
@@ -134,6 +139,8 @@ class MainActivity : AppCompatActivity() {
 
                 add_event()
 
+                money += mice_cost.toInt()
+
             } else {
 
                 Toast.makeText(this@MainActivity, "Not enough energy", Toast.LENGTH_SHORT).show()
@@ -172,7 +179,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun getMousefromXML(activity: Activity): String {
+    private fun getfromXML(activity: Activity, index: Int): String {
         i = rand(1, 3)
         val stringBuilder = StringBuilder()
         val res = activity.resources
@@ -181,7 +188,7 @@ class MainActivity : AppCompatActivity() {
         while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() == XmlPullParser.START_TAG
                     && parser.getName().equals("mice" + "$i")) {
-                stringBuilder.append(parser.getAttributeValue(1))
+                stringBuilder.append(parser.getAttributeValue(index))
             }
             parser.next()
         }
