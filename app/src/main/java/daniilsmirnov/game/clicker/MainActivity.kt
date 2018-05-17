@@ -79,10 +79,12 @@ class MainActivity : AppCompatActivity() {
 
         fun add_event() {
 
+            i = rand(1, 11)
+
             val myThread = async(CommonPool) {
                 // Запустить сопрограмму и присвоить её переменной myThread.
-                mice_name = getfromXML(this@MainActivity,1)
-                mice_cost = getfromXML(this@MainActivity,0)
+                mice_name = getfromXML(this@MainActivity,1,i)
+                mice_cost = getfromXML(this@MainActivity,0,i)
 
             }
 
@@ -152,15 +154,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun getfromXML(activity: Activity, index: Int): String {
-        i = rand(1, 11)
+    private fun getfromXML(activity: Activity, index: Int, random: Int): String {
         val stringBuilder = StringBuilder()
         val res = activity.resources
         val parser = resources.getXml(R.xml.locations)
 
         while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() == XmlPullParser.START_TAG
-                    && parser.getName().equals("mice" + "$i")) {
+                    && parser.getName().equals("mice" + "$random")) {
                 stringBuilder.append(parser.getAttributeValue(index))
             }
             parser.next()
