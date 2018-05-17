@@ -85,12 +85,12 @@ class MainActivity : AppCompatActivity() {
                 // Запустить сопрограмму и присвоить её переменной myThread.
                 mice_name = getfromXML(this@MainActivity,1)
                 mice_cost = getfromXML(this@MainActivity,0)
-                money += mice_cost.toInt()
 
             }
 
             launch(UI) {
                 var myResult = myThread.await()
+                money += mice_cost.toInt()
             }
 
 
