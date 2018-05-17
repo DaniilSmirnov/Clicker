@@ -21,6 +21,14 @@
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MoveActivity"
+            android:label="@string/title_activity_move"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ShopActivity"
+            android:label="@string/title_activity_shop"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -15,7 +15,6 @@ import android.app.Activity
 import java.io.IOException
 import java.util.*
 import android.content.SharedPreferences
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -54,7 +53,10 @@ class MainActivity : AppCompatActivity() {
         val event_card = findViewById<CardView>(R.id.event_card)
         val mouse_info = findViewById<TextView>(R.id.mouse_info)
         val mouse_icon_view = findViewById<ImageView>(R.id.mouse_icon_view)
-        val mouse_cost_view = findViewById<TextView>(R.id.mouse_cost)
+        val mouse_cost = findViewById<TextView>(R.id.mouse_cost)
+        val move_button = findViewById<ImageButton>(R.id.move_button)
+        val shop_button = findViewById<ImageButton>(R.id.shop_button)
+
 
         var mice_name: String = ""
         var mice_cost: String = ""
@@ -156,6 +158,17 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent_events)
         }
 
+        move_button.setOnClickListener {
+
+            val intent_events = Intent(this, MoveActivity::class.java)
+            startActivity(intent_events)
+        }
+
+        shop_button.setOnClickListener {
+
+            val intent_events = Intent(this, ShopActivity::class.java)
+            startActivity(intent_events)
+        }
 
         energy_view_text.post(
                 Runnable {
