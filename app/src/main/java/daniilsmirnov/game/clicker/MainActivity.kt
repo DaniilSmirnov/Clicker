@@ -180,7 +180,7 @@ class MainActivity : AppCompatActivity() {
 
     @Throws(XmlPullParserException::class, IOException::class)
     private fun getfromXML(activity: Activity, index: Int): String {
-        i = rand(1, 3)
+        i = rand(1, 6)
         val stringBuilder = StringBuilder()
         val res = activity.resources
         val parser = resources.getXml(R.xml.locations)

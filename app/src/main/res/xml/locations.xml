@@ -10,5 +10,14 @@
         <mice3 name="Black mouse"
                 cost="150"
         />
+        <mice4  name="Poor mouse"
+            cost="50"
+            />
+        <mice5  name="Shadow  mouse"
+            cost="200"
+            />
+        <mice6 name="Nothing"
+            cost="0"
+            />
     </location>
 </resources>
