@@ -17,7 +17,7 @@
             cost="200"
             />
         <mice6 name="Nothing"
-            cost="0"
+            cost="1"
             />
     </location>
 </resources>

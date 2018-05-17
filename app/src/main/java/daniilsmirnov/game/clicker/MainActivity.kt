@@ -83,6 +83,7 @@ class MainActivity : AppCompatActivity() {
                 // Запустить сопрограмму и присвоить её переменной myThread.
                 mice_name = getfromXML(this@MainActivity,1)
                 mice_cost = getfromXML(this@MainActivity,0)
+                money += mice_cost.toInt()
 
             }
 
@@ -138,8 +139,6 @@ class MainActivity : AppCompatActivity() {
                 energy_view.progress = energy
 
                 add_event()
-
-                money += mice_cost.toInt()
 
             } else {
 
