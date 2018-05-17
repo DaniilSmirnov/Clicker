@@ -56,10 +56,12 @@ class MainActivity : AppCompatActivity() {
         val mouse_cost = findViewById<TextView>(R.id.mouse_cost)
         val move_button = findViewById<ImageButton>(R.id.move_button)
         val shop_button = findViewById<ImageButton>(R.id.shop_button)
+        val location_view = findViewById<TextView>(R.id.Location_view)
 
 
         var mice_name: String = ""
         var mice_cost: String = ""
+        var location: String=getfromXML(this@MainActivity,0,1,"location")
 
         lateinit var mAdView: AdView
 
@@ -74,6 +76,7 @@ class MainActivity : AppCompatActivity() {
             energy_view_text.text = "$energy"
             diamonds_view.text = "$diamonds"
             money_view.text = "$money"
+            location_view.text = location
 
         }
 
@@ -83,8 +86,8 @@ class MainActivity : AppCompatActivity() {
 
             val myThread = async(CommonPool) {
                 // Запустить сопрограмму и присвоить её переменной myThread.
-                mice_name = getfromXML(this@MainActivity,1,i)
-                mice_cost = getfromXML(this@MainActivity,0,i)
+                mice_name = getfromXML(this@MainActivity,1,i,"mice")
+                mice_cost = getfromXML(this@MainActivity,0,i,"mice")
 
             }
 
@@ -106,6 +109,8 @@ class MainActivity : AppCompatActivity() {
         fun init() {
 
             //energy_threads()
+
+
             update_ui()
 
         }
@@ -154,14 +159,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun getfromXML(activity: Activity, index: Int, random: Int): String {
+    private fun getfromXML(activity: Activity, index: Int, random: Int, tag: String): String {
         val stringBuilder = StringBuilder()
         val res = activity.resources
         val parser = resources.getXml(R.xml.locations)
 
         while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() == XmlPullParser.START_TAG
-                    && parser.getName().equals("mice" + "$random")) {
+                    && parser.getName().equals(tag + "$random")) {
                 stringBuilder.append(parser.getAttributeValue(index))
             }
             parser.next()
