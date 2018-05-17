@@ -137,7 +137,19 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent_events)
         }
 
+        energy_view.post{
 
+            val EnergyThread = async(CommonPool) {                 // Запустить сопрограмму и присвоить её переменной myThread.
+                Thread.sleep(60000)
+                energy++
+            }
+
+            launch (UI) {                                      // Запустить и забыть.
+                var myResult = EnergyThread.await()                // Подождём результата
+                update_ui()
+            }
+
+        }
 
     }
 
