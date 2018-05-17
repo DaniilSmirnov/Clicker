@@ -99,29 +99,6 @@ class MainActivity : AppCompatActivity() {
 
         fun energy_threads() {
 
-            val EnergyCheckThread = async(CommonPool) {
-
-                if (energy < energy_max) {
-
-                    val EnergyThread = async(CommonPool) {
-                        // Запустить сопрограмму и присвоить её переменной myThread.
-                        Thread.sleep(1000)
-                        energy++
-                    }
-
-                    launch(UI) {
-                        // Запустить и забыть.
-                        var myResult = EnergyThread.await()          // Подождём результата
-                        update_ui()
-                    }
-
-                }
-
-            }
-
-            launch(UI) {
-                var Result = EnergyCheckThread.await()
-            }
         }
 
         fun init() {
@@ -176,7 +153,7 @@ class MainActivity : AppCompatActivity() {
 
     @Throws(XmlPullParserException::class, IOException::class)
     private fun getfromXML(activity: Activity, index: Int): String {
-        i = rand(1, 6)
+        i = rand(1, 11)
         val stringBuilder = StringBuilder()
         val res = activity.resources
         val parser = resources.getXml(R.xml.locations)

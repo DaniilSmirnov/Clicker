@@ -11,13 +11,28 @@
                 cost="150"
         />
         <mice4  name="Poor mouse"
-            cost="50"
+                cost="50"
             />
         <mice5  name="Shadow  mouse"
+                cost="200"
+            />
+        <mice6 name="Felt mouse"
+                cost="200"
+            />
+        <mice7  name="Dr.Spider Mouse"
             cost="200"
             />
-        <mice6 name="Nothing"
-            cost="1"
+        <mice8  name="Portal mouse"
+            cost="250"
+            />
+        <mice9 name="Robber Mouse"
+            cost="300"
+            />
+        <mice10  name="Nothing"
+            cost="0"
+            />
+        <mice11 name="Nothing"
+            cost="0"
             />
     </location>
 </resources>
