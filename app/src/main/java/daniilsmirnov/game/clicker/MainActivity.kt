@@ -95,9 +95,6 @@ class MainActivity : AppCompatActivity() {
 
         fun init() {
 
-            //    val t = Thread(energy_runnable)
-            //  t.start()
-
             val EnergyThread = async(CommonPool) {                 // Запустить сопрограмму и присвоить её переменной myThread.
                 Thread.sleep(60000)
                 energy++
@@ -108,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                 update_ui()
             }
 
-            //update_ui()
+            update_ui()
 
         }
 
@@ -139,6 +136,7 @@ class MainActivity : AppCompatActivity() {
             val intent_events = Intent(this, ScrollingActivity::class.java)
             startActivity(intent_events)
         }
+
 
 
     }
