@@ -102,27 +102,30 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        fun energy_threads() {
-
-            val jobB = async(CommonPool) { Thread.sleep(1000); energy++ }
-
-            val jobA = async(CommonPool) {
-                while(energy < energy_max){
-
-                    jobB.await()
-
+        fun energy_threads()= async(UI) {
+            try {
+                val job = async(CommonPool) {
+                    while(true) {
+                        if (energy < energy_max) {
+                            Thread.sleep(1000)
+                            energy++
+                        }
+                    }
                 }
-            };
 
-            launch(UI) {
-                jobA.join()
-                update_ui()
+                job.await()
+
+            }
+            catch (e: Exception) {
+            }
+            finally {
+                //Turn off busy indicator.
             }
         }
 
         fun init() {
 
-            //energy_threads()
+            energy_threads()
             update_ui()
 
         }
