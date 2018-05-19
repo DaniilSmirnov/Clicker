@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
     var diamonds: Int = 0
     var power: Int = 100
 
-    var energy_max: Int = 100
-    var energy: Int = 10
+    var energy_max: Int = 1
+    var energy: Int = 1
 
     var location = 1.1
 
@@ -123,9 +123,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        fun safe_energy(){
+
+            val myThread = async(CommonPool) {
+                // Запустить сопрограмму и присвоить её переменной myThread.
+                Thread.sleep(1000)
+                energy++
+            }
+
+            launch(UI) {
+                var myResult = myThread.await()
+                update_ui()
+            }
+
+        }
+
         fun init() {
 
-            energy_threads()
+            //energy_threads()
             update_ui()
 
         }
@@ -145,6 +160,7 @@ class MainActivity : AppCompatActivity() {
 
             }
 
+            safe_energy()
             update_ui()
 
         }
