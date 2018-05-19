@@ -19,6 +19,12 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import android.R.attr.data
+import android.content.Context
+import android.util.Xml
+import java.io.FileInputStream
+import java.io.FileOutputStream
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -171,15 +177,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent_events)
         }
 
-        move_button.setOnClickListener {
-
-            val intent_events = Intent(this, MoveActivity::class.java)
-            startActivity(intent_events)
-        }
-
         shop_button.setOnClickListener {
 
             val intent_events = Intent(this, ShopActivity::class.java)
+            startActivity(intent_events)
+        }
+
+        move_button.setOnClickListener {
+
+            val intent_events = Intent(this, MoveActivity::class.java)
             startActivity(intent_events)
         }
 
@@ -203,6 +209,48 @@ class MainActivity : AppCompatActivity() {
             parser.next()
         }
         return stringBuilder.toString()
+    }
+
+    private fun WriteFile(money: Int, location: Int){
+
+        val filename = "userdata.xml"
+
+        val fos: FileOutputStream
+
+        fos = openFileOutput(filename, Context.MODE_APPEND)
+
+
+        val serializer = Xml.newSerializer()
+        serializer.setOutput(fos, "UTF-8")
+        serializer.startDocument(null, java.lang.Boolean.valueOf(true))
+        serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true)
+
+        serializer.startTag(null, "user")
+
+        serializer.startTag(null, "money")
+
+        serializer.text("$money")
+
+        serializer.endTag(null, "money")
+
+        serializer.startTag(null, "location")
+
+        serializer.text("$location")
+
+        serializer.endTag(null, "location")
+
+        serializer.endDocument()
+
+        serializer.flush()
+
+        fos.close()
+
+    }
+
+    private fun ReadFile(){
+
+
+
     }
 
 }
