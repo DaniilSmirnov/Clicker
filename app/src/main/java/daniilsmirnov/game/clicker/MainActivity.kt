@@ -22,8 +22,10 @@ import kotlinx.coroutines.experimental.launch
 import android.R.attr.data
 import android.content.Context
 import android.util.Xml
+import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.security.AccessController.getContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -244,12 +246,6 @@ class MainActivity : AppCompatActivity() {
         serializer.flush()
 
         fos.close()
-
-    }
-
-    private fun ReadFile(){
-
-
 
     }
 
