@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity() {
             money_view.text = "$money"
             location_view.text = location
 
+            WriteFile(money, energy, diamonds)
         }
 
         fun add_event() {
@@ -149,6 +150,9 @@ class MainActivity : AppCompatActivity() {
         fun init() {
 
             //energy_threads()
+            /*money = ReadFile("money").toInt()
+            energy = ReadFile("energy").toInt()
+            diamonds = ReadFile("diamonds").toInt()*/
             update_ui()
 
         }
@@ -213,7 +217,25 @@ class MainActivity : AppCompatActivity() {
         return stringBuilder.toString()
     }
 
-    private fun WriteFile(money: Int, location: Int){
+    private fun ReadFile(v: String): String {
+        val stringBuilder = StringBuilder()
+       try {
+           /*val parser = resources.getXml(R.xml.userdata)
+
+            while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
+                if (parser.getEventType() == XmlPullParser.START_TAG
+                        && parser.getName().equals("$v")) {
+                    stringBuilder.append(parser.getAttributeValue(0))
+            }
+            parser.next()*/
+        }
+        catch (e: NumberFormatException){
+
+       }
+        return stringBuilder.toString()
+    }
+
+    private fun WriteFile(money: Int, energy: Int, diamonds: Int){
 
         val filename = "userdata.xml"
 
@@ -229,17 +251,25 @@ class MainActivity : AppCompatActivity() {
 
         serializer.startTag(null, "user")
 
-        serializer.startTag(null, "money")
+            serializer.startTag(null, "money")
 
-        serializer.text("$money")
+                serializer.text("$money")
 
-        serializer.endTag(null, "money")
+            serializer.endTag(null, "money")
 
-        serializer.startTag(null, "location")
+            serializer.startTag(null, "energy")
 
-        serializer.text("$location")
+                serializer.text("$energy")
 
-        serializer.endTag(null, "location")
+            serializer.endTag(null, "energy")
+
+            serializer.startTag(null, "diamonds")
+
+                serializer.text("$diamonds")
+
+            serializer.endTag(null, "diamonds")
+
+        serializer.endTag(null, "user")
 
         serializer.endDocument()
 
@@ -248,5 +278,4 @@ class MainActivity : AppCompatActivity() {
         fos.close()
 
     }
-
 }
